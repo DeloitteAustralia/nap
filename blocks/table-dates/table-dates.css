@@ -1,0 +1,47 @@
+/* Table Dates: bordered key-dates table (values from nap.edu.au computed styles) */
+
+.table-dates {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-dates table {
+  width: auto;
+  margin: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: #000;
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+}
+
+.table-dates th,
+.table-dates td {
+  border: 1px solid #ccc;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* header cells hold bold h3-sized headings (h3: 16px/1.1, margin 10px 0) */
+.table-dates th {
+  padding: 15px 5px;
+  color: var(--brand-primary-dark);
+  font-size: var(--heading-font-size-l);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+/* source cell paragraphs keep their 10px bottom margin, also on the last one */
+.table-dates td {
+  padding: 5px 5px 15px;
+}
+
+.table-dates th > *,
+.table-dates td > * {
+  margin: 0;
+}
+
+.table-dates th > * + *,
+.table-dates td > * + * {
+  margin-top: 10px;
+}

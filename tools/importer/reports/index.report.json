@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.nap.edu.au",
+  "path": "index",
+  "timestamp": "2026-10-30T02:05:23.278Z",
+  "title": "NAP - Home",
+  "template": "home",
+  "blocks": [
+    "carousel-side-text",
+    "cards-article",
+    "cards-news"
+  ]
+}

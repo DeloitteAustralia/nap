@@ -1,0 +1,80 @@
+/* What's New panel body: light-blue panel that joins the "What's New" heading bar
+   (default content directly above the block). Values from www.nap.edu.au
+   (.divNewsContent / .whatsnew computed styles). */
+.cards-news {
+  margin: 0;
+  padding: 0 0 0 10px;
+  background-color: var(--brand-tint-color);
+  color: var(--text-color);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.cards-news > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-news .cards-news-item-body {
+  padding: 0;
+}
+
+.cards-news .cards-news-item-body > * {
+  margin: 0;
+}
+
+/* source: h4 margin 10px 0; the 10px top gap sits inside the panel under the bar */
+.cards-news .cards-news-item-body > .cards-news-item-title {
+  margin: 10px 0;
+  color: var(--brand-primary-dark);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 17.6px;
+}
+
+.cards-news .cards-news-item-date {
+  font-weight: 700;
+}
+
+.cards-news .cards-news-item-date time {
+  font-weight: inherit;
+}
+
+.cards-news .cards-news-item-body > .cards-news-item-summary {
+  margin: 0 0 5px;
+}
+
+.cards-news .cards-news-item-body > .cards-news-item-summary:last-child {
+  margin-bottom: 0;
+}
+
+.cards-news .cards-news-item-cta {
+  margin: 0;
+}
+
+.cards-news a:any-link,
+main .cards-news a.button:any-link {
+  color: var(--brand-primary-dark);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cards-news a:any-link:hover,
+.cards-news a:any-link:focus-visible,
+main .cards-news a.button:any-link:hover,
+main .cards-news a.button:any-link:focus-visible {
+  color: var(--brand-primary-dark);
+  text-decoration: underline;
+}
+
+/* source switches to the 4-column layout (and 10px paragraph spacing) at 992px,
+   the same breakpoint as the .section.split grid */
+@media (width >= 992px) {
+  .cards-news .cards-news-item-body > .cards-news-item-summary {
+    margin-bottom: 10px;
+  }
+}

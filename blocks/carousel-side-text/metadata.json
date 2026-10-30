@@ -1,0 +1,13 @@
+{
+  "variantName": "carousel-side-text",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Full-width light-grey band (section.banner computed #f5f5f5) holding a boxed 3-slide carousel. Each slide: a linked promo image (~3/4 width, headline/CTA baked into the image) on the left and a white caption panel (~1/4) on the right with the NAP welcome paragraph. A dark-blue (#016396, the visual tree's paint on .carousel-inner) strip under the caption carries the three dot indicators; that blue is carousel chrome. Slides auto-rotate.",
+  "contentPattern": "Three-slide promo carousel with linked image and caption panel. Interactive rotating component with indicators: Carousel. One row per slide; image (kept linked to its target) in cell 1, caption text in cell 2. Headline and CTA are baked into the images, so the alt text carries them.",
+  "options": [],
+  "memberVariantIds": [
+    "carousel-side-text"
+  ],
+  "usage": "Homepage promo carousel: one row per slide, a linked promo image in cell 1 (headline/CTA baked into the image, so the alt text must carry them) and a caption text panel in cell 2. Prev/next, dot indicators and a pause/play button appear with two or more slides; a single slide renders as a static image and panel. Rotates every 6s unless the user prefers reduced motion; pauses on hover/focus.",
+  "reuseGuidance": "Use for a rotating set of image + side caption slides. For text overlaid on a full-bleed slide image use the base carousel block; for a single static image beside a title panel use hero-title-panel."
+}

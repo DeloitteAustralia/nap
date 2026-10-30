@@ -1,0 +1,47 @@
+/* NAP brand tokens, extracted from www.nap.edu.au computed styles */
+:root {
+  /* colors */
+  --background-color: #fff;
+  --light-color: #f5f5f5;
+  --dark-color: #505050;
+  --text-color: #1f1f11;
+  --link-color: #016396;
+  --link-hover-color: #016396;
+  --brand-primary: #016396;
+  --brand-primary-dark: #005d93;
+  --brand-panel-color: #305d94;
+  --brand-tint-color: #e5f5fb;
+
+  /* fonts: the source uses system Arial, no web fonts */
+  --body-font-family: arial, helvetica, sans-serif;
+  --heading-font-family: arial, helvetica, sans-serif;
+
+  /* body sizes */
+  --body-font-size-m: 14px;
+  --body-font-size-s: 14px;
+  --body-font-size-xs: 12px;
+  --body-line-height: 20px;
+
+  /* heading sizes (same on all breakpoints on the source) */
+  --heading-font-size-xxl: 20px;
+  --heading-font-size-xl: 18px;
+  --heading-font-size-l: 16px;
+  --heading-font-size-m: 16px;
+  --heading-font-size-s: 14px;
+  --heading-font-size-xs: 14px;
+
+  /* layout */
+  --content-max-width: 1170px;
+  --content-gutter: 15px;
+  --section-spacing: 20px;
+
+  /* nav height (mobile): logo row 69px + tools bar 35px + menu row 50px + 3px rule */
+  --nav-height: 157px;
+}
+
+@media (width >= 900px) {
+  :root {
+    /* logo row 68px + 1px rule + nav bar 37.5px */
+    --nav-height: 106px;
+  }
+}

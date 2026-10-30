@@ -1,0 +1,11 @@
+{
+  "variantName": "accordion-faq",
+  "baseBlock": "accordion",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Stacked FAQ panels: each question is a full-width bar with the question text on the left and a plus/minus glyph on the right; clicking expands the answer below. All collapsed by default.",
+  "contentPattern": "FAQ question/answer list (about 20 items) inside the article column. One row per question: cell 1 question, cell 2 answer.",
+  "options": [],
+  "memberVariantIds": ["accordion-faq"],
+  "usage": "FAQ pages: a list of questions that expand to show their answers, rendered as native details/summary disclosures.",
+  "reuseGuidance": "Use for any question/answer or expandable-panel list in article content. Not for tabbed content or navigation."
+}

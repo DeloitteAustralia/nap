@@ -1,0 +1,11 @@
+{
+  "variantName": "cards-side-nav",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Vertical stacked text-only link list in a light-blue box with a highlighted active item, used as section sub-navigation.",
+  "contentPattern": "Side navigation list: one row per link to a page in the section; item count varies by page. The active item is derived from the current URL in block code. Placed in a 'split' section beside the article.",
+  "options": [],
+  "memberVariantIds": ["cards-side-nav"],
+  "usage": "Section sub-navigation in the left column of a 'split' section; author one link per row.",
+  "reuseGuidance": "Use for text-only lists of links to sibling pages. For image cards use the base cards block."
+}

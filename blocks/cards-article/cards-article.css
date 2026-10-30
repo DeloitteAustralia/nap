@@ -1,0 +1,91 @@
+/* Article teaser cards (source: .divarticle columns, Bootstrap col-sm-6 / col-lg-3) */
+.cards-article > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 30px;
+}
+
+.cards-article .cards-article-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* .divArticleImage: 12px top padding, image at natural ratio */
+.cards-article .cards-article-card-image {
+  padding-top: 12px;
+  line-height: 0;
+}
+
+.cards-article .cards-article-card-image a,
+.cards-article .cards-article-card-image picture {
+  display: block;
+}
+
+.cards-article .cards-article-card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cards-article .cards-article-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cards-article .cards-article-card-body :is(h2, h3) {
+  margin: 20px 0 10px;
+  font-size: var(--heading-font-size-l);
+  font-weight: 700;
+  line-height: 17.6px;
+  color: var(--brand-primary-dark);
+}
+
+.cards-article .cards-article-card-body p {
+  margin: 0 0 10px;
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+  color: var(--text-color);
+}
+
+/* source: the link sits on its own 42px line right after the text, in the same paragraph */
+.cards-article .cards-article-card-body p:has(+ .cards-article-card-cta) {
+  margin-bottom: 0;
+}
+
+.cards-article .cards-article-card-body .cards-article-card-cta {
+  margin: 0 0 10px;
+  line-height: 42px;
+}
+
+.cards-article .cards-article-card-body a:any-link,
+main .cards-article a.button:any-link {
+  color: var(--brand-primary-dark);
+  font-size: var(--body-font-size-m);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cards-article .cards-article-card-body a:hover,
+.cards-article .cards-article-card-body a:focus-visible,
+main .cards-article a.button:hover,
+main .cards-article a.button:focus-visible {
+  color: var(--brand-primary-dark);
+  text-decoration: underline;
+}
+
+@media (width >= 768px) {
+  .cards-article > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 992px) {
+  .cards-article > ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

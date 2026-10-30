@@ -1,0 +1,345 @@
+/* carousel-side-text: values from www.nap.edu.au #home-carousel computed styles */
+
+/* the blue (.carousel-inner #016396) shows below the white caption as the indicator strip */
+.carousel-side-text .carousel-side-text-slides-container {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--brand-primary);
+  color: rgb(31 31 17);
+  font-family: arial, helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.carousel-side-text .carousel-side-text-slides,
+.carousel-side-text .carousel-side-text-indicators {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* stack every slide in one grid cell so the block keeps the tallest slide's height */
+.carousel-side-text .carousel-side-text-slides {
+  display: grid;
+}
+
+.carousel-side-text .carousel-side-text-slide {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out, visibility 0s linear 0.6s;
+}
+
+.carousel-side-text .carousel-side-text-slide.active {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.6s ease-in-out, visibility 0s;
+}
+
+/* promo image: the source crops it to a 100:51 box (embed-responsive, padding-bottom 51%) */
+.carousel-side-text .carousel-side-text-slide-image {
+  line-height: 0;
+}
+
+.carousel-side-text .carousel-side-text-slide-image p {
+  margin: 0;
+}
+
+.carousel-side-text .carousel-side-text-slide-image a,
+.carousel-side-text .carousel-side-text-slide-image picture {
+  display: block;
+}
+
+.carousel-side-text .carousel-side-text-slide-image a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+  box-shadow: inset 0 0 0 6px var(--brand-primary);
+}
+
+.carousel-side-text .carousel-side-text-slide-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 100 / 51;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* white caption panel */
+.carousel-side-text .carousel-side-text-slide-content {
+  padding: 10px 15px 0;
+  background-color: #fff;
+  color: #000;
+  font-family: arial, sans-serif;
+  font-size: 13.3333px;
+  line-height: 18.6667px;
+  font-weight: 100;
+  text-align: left;
+  overflow: hidden;
+}
+
+.carousel-side-text .carousel-side-text-slide-content p {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: inherit;
+  color: #000;
+}
+
+.carousel-side-text .carousel-side-text-slide-content > :last-child {
+  margin-bottom: 0;
+}
+
+.carousel-side-text .carousel-side-text-slide-content a:any-link {
+  color: var(--brand-primary);
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* controls: dots (+ pause/play; prev/next are keyboard-only, shown on focus) */
+.carousel-side-text .carousel-side-text-controls {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 15px;
+  background-color: #fff;
+}
+
+.carousel-side-text .carousel-side-text-indicators {
+  display: flex;
+  align-items: flex-end;
+}
+
+.carousel-side-text .carousel-side-text-indicators li {
+  display: flex;
+}
+
+.carousel-side-text .carousel-side-text-controls button {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.carousel-side-text .carousel-side-text-controls button[hidden] {
+  display: none;
+}
+
+.carousel-side-text .carousel-side-text-controls button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 5px var(--brand-primary);
+}
+
+/* 24px tap target (WCAG 2.5.8); the visible dot is drawn inside it */
+.carousel-side-text .carousel-side-text-indicator {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+}
+
+.carousel-side-text .carousel-side-text-indicator::before {
+  content: '';
+  width: 11px;
+  height: 11px;
+  border-radius: 10px;
+  background-color: rgb(0 163 222);
+}
+
+/* active dot is white on the source; on mobile it sits on the white caption, so use the brand blue there */
+.carousel-side-text .carousel-side-text-indicator[aria-current='true']::before {
+  width: 12px;
+  height: 12px;
+  background-color: var(--brand-primary);
+}
+
+.carousel-side-text .carousel-side-text-prev,
+.carousel-side-text .carousel-side-text-next,
+.carousel-side-text .carousel-side-text-toggle {
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  color: var(--brand-primary);
+}
+
+/* the source has no prev/next arrows: keep them for keyboard users, visible only when focused */
+.carousel-side-text .carousel-side-text-prev:not(:focus-visible),
+.carousel-side-text .carousel-side-text-next:not(:focus-visible) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.carousel-side-text .carousel-side-text-prev::after,
+.carousel-side-text .carousel-side-text-next::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border: 2px solid currentcolor;
+  border-bottom: 0;
+  border-left: 0;
+  transform: translate(-30%, -50%) rotate(-135deg);
+}
+
+.carousel-side-text .carousel-side-text-next::after {
+  transform: translate(-70%, -50%) rotate(45deg);
+}
+
+.carousel-side-text .carousel-side-text-controls .carousel-side-text-toggle {
+  position: absolute;
+  right: 11px;
+  bottom: 0;
+}
+
+/* pause icon (two bars) while rotating, play triangle when paused */
+.carousel-side-text .carousel-side-text-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  box-sizing: content-box;
+  width: 2px;
+  height: 10px;
+  border-left: 2px solid currentcolor;
+  border-right: 2px solid currentcolor;
+  transform: translate(-50%, -50%);
+}
+
+.carousel-side-text .carousel-side-text-toggle.paused::after {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid currentcolor;
+  border-right: 0;
+  transform: translate(-35%, -50%);
+}
+
+@media (width >= 900px) {
+  /* image col-md-9 (75% of the 1170px row less its 15px gutter) left, caption right */
+  .carousel-side-text .carousel-side-text-slide {
+    display: grid;
+    grid-template-columns: calc(75% + 7.5px) 1fr;
+    align-items: start;
+  }
+
+  .carousel-side-text .carousel-side-text-slide.no-image,
+  .carousel-side-text .carousel-side-text-slide.no-content {
+    grid-template-columns: 1fr;
+  }
+
+  .carousel-side-text .carousel-side-text-slide-image,
+  .carousel-side-text .carousel-side-text-slide-image p,
+  .carousel-side-text .carousel-side-text-slide-image a,
+  .carousel-side-text .carousel-side-text-slide-image picture {
+    height: 100%;
+  }
+
+  .carousel-side-text .carousel-side-text-slide-image {
+    align-self: stretch;
+  }
+
+  .carousel-side-text .carousel-side-text-slide-image img {
+    height: 100%;
+  }
+
+  /* caption height follows its text; the blue strip fills the rest of the slide height */
+  .carousel-side-text .carousel-side-text-slide-content {
+    padding: 15px 15px 20px 30px;
+    font-size: 19px;
+    line-height: 26.6px;
+  }
+
+  .carousel-side-text .carousel-side-text-slide-content > :last-child {
+    margin-bottom: 10px;
+  }
+
+  /* zero-size anchor at the block's bottom-right corner; the controls position from it */
+  .carousel-side-text .carousel-side-text-controls {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    padding: 0;
+    background: none;
+  }
+
+  /* dots: right-aligned, 115px from the block edge, straddling the caption's bottom edge */
+
+  /* offsets are 6.5px less than the source because each dot sits centred in a 24px target */
+  .carousel-side-text .carousel-side-text-indicators {
+    position: absolute;
+    right: 83.5px;
+    bottom: 9.5px;
+    z-index: 15;
+  }
+
+  .carousel-side-text .carousel-side-text-indicator[aria-current='true']::before {
+    background-color: #fff;
+  }
+
+  .carousel-side-text .carousel-side-text-prev,
+  .carousel-side-text .carousel-side-text-next,
+  .carousel-side-text .carousel-side-text-toggle {
+    color: #fff;
+  }
+
+  .carousel-side-text .carousel-side-text-controls .carousel-side-text-prev,
+  .carousel-side-text .carousel-side-text-controls .carousel-side-text-next {
+    position: absolute;
+    bottom: 1px;
+  }
+
+  .carousel-side-text .carousel-side-text-controls .carousel-side-text-prev {
+    right: 145px;
+  }
+
+  .carousel-side-text .carousel-side-text-controls .carousel-side-text-next {
+    right: 60px;
+  }
+
+  .carousel-side-text .carousel-side-text-controls .carousel-side-text-toggle {
+    right: 8px;
+    bottom: 1px;
+  }
+}
+
+@media (width >= 1200px) {
+  .carousel-side-text .carousel-side-text-slide-content {
+    padding: 70px 25px 72px 40px;
+  }
+
+  .carousel-side-text .carousel-side-text-indicators {
+    right: 108.5px;
+    bottom: 11.5px;
+  }
+
+  .carousel-side-text .carousel-side-text-controls .carousel-side-text-prev {
+    right: 172px;
+  }
+
+  .carousel-side-text .carousel-side-text-controls .carousel-side-text-next {
+    right: 90px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-side-text .carousel-side-text-slide,
+  .carousel-side-text .carousel-side-text-slide.active {
+    transition: none;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variantName": "cards-news",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "White band, 4 equal columns on desktop (col-lg-3; 2-up on tablet, stacked on mobile). Columns 1-3 are look-alike article cards: photo, blue h3, body text, bold blue 'Read more' link. Column 4 is a 'What's New' news panel: blue (#305d94) header bar with white 'What's New' title, light-blue (#e5f5fb) body with news item title (blue h4), bold date, summary and 'read more' link.",
+  "contentPattern": "What's New news items. Each item links to a news detail page and carries a date: a dynamic list, so Cards (no images).",
+  "options": [],
+  "memberVariantIds": [
+    "cards-news"
+  ],
+  "usage": "News list without images (e.g. the What's New panel): one row per item with a title heading (h4), a bold date paragraph, a summary paragraph and a read more link paragraph. The panel heading itself is default content above the block.",
+  "reuseGuidance": "Use for dated news/announcement items without images. For items with images use cards-article."
+}

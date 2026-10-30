@@ -1,0 +1,88 @@
+/* Accordion FAQ: values from the source Bootstrap 3 .panel-group (nap.edu.au FAQ pages) */
+
+.accordion-faq {
+  margin: 0 0 20px;
+  color: var(--text-color);
+}
+
+.accordion-faq .accordion-faq-item {
+  margin: 0;
+  border-radius: 4px;
+}
+
+/* closed items: 10px apart (heading margin); after an open item: 5px */
+.accordion-faq .accordion-faq-item + .accordion-faq-item {
+  margin-top: 5px;
+}
+
+/* question row: .panel-title h4 > a + .glyphicon */
+.accordion-faq .accordion-faq-item-label {
+  display: block;
+  margin: 0;
+  padding: 20px 0 0;
+  color: var(--brand-primary);
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-l);
+  font-weight: 400;
+  line-height: 17.6px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.accordion-faq .accordion-faq-item-label::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-faq .accordion-faq-item-label:hover .accordion-faq-item-question {
+  text-decoration: underline;
+}
+
+/* focus ring around the question text only, as on the source link */
+.accordion-faq .accordion-faq-item-label:focus {
+  outline: none;
+}
+
+.accordion-faq .accordion-faq-item-label:focus-visible .accordion-faq-item-question {
+  text-decoration: underline;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.accordion-faq .accordion-faq-item:not([open]) > .accordion-faq-item-label {
+  padding-bottom: 5px;
+}
+
+.accordion-faq .accordion-faq-item:last-child:not([open]) > .accordion-faq-item-label {
+  padding-bottom: 0;
+}
+
+/* plus / minus glyph inline after the question text */
+.accordion-faq .accordion-faq-item-label::after {
+  content: '+';
+  display: inline-block;
+  position: relative;
+  top: 1px;
+  width: 13px;
+  font-size: 16px;
+  line-height: 16px;
+  text-decoration: none;
+}
+
+.accordion-faq .accordion-faq-item[open] > .accordion-faq-item-label::after {
+  content: '\2212';
+}
+
+/* answer panel: .panel-body */
+.accordion-faq .accordion-faq-item-body {
+  margin-top: 10px;
+  padding: 0 10px 15px;
+  border-top: 1px solid #ddd;
+  background-color: rgb(0 171 232 / 10%);
+  color: var(--text-color);
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+}
+
+.accordion-faq .accordion-faq-item-body > :first-child {
+  margin-top: 0;
+}

@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.nap.edu.au/nap-sample-assessments",
+  "path": "nap-sample-assessments",
+  "timestamp": "2026-10-30T04:16:18.859Z",
+  "title": "NAP sample assessments",
+  "template": "naplan",
+  "blocks": [
+    "hero-title-panel",
+    "cards-side-nav"
+  ]
+}

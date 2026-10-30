@@ -1,0 +1,13 @@
+{
+  "variantName": "cards-article",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "White band, 4 equal columns on desktop (col-lg-3; 2-up on tablet, stacked on mobile). Columns 1-3 are look-alike article cards: photo, blue h3, body text, bold blue 'Read more' link. Column 4 is a 'What's New' news panel: blue (#305d94) header bar with white 'What's New' title, light-blue (#e5f5fb) body with news item title (blue h4), bold date, summary and 'read more' link.",
+  "contentPattern": "Three article cards (NAPLAN for schools, NAPLAN for parents and carers, Key Dates 2026). Look-alike items (image, heading, text, Read more) that flow and wrap (4-up / 2-up / stacked): Cards, not Columns.",
+  "options": [],
+  "memberVariantIds": [
+    "cards-article"
+  ],
+  "usage": "Grid of article teaser cards: one row per card, image in cell 1 and heading (h3), description and a Read more link (own paragraph) in cell 2. 1-up mobile, 2-up tablet, auto-fit columns on desktop.",
+  "reuseGuidance": "Use for look-alike image + heading + text + link teasers. For a dated news list without images use cards-news; for a fixed side-by-side layout use columns."
+}

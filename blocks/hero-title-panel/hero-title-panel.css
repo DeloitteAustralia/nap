@@ -1,0 +1,106 @@
+/* hero-title-panel: banner photo + blue title panel (values from www.nap.edu.au/about) */
+.hero-title-panel {
+  display: flex;
+  flex-direction: column;
+
+  /* source container is 1170px border-box (1140px content); the section wrapper is content-box */
+  max-width: calc(var(--content-max-width) - 2 * var(--content-gutter));
+  margin-inline: auto;
+  border-bottom: 2px solid var(--brand-primary);
+  overflow: hidden;
+  color: var(--text-color);
+}
+
+.hero-title-panel .hero-title-panel-media {
+  line-height: 0;
+}
+
+.hero-title-panel .hero-title-panel-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hero-title-panel .hero-title-panel-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--brand-primary);
+  color: #fff;
+  text-align: right;
+}
+
+/*
+ * Decorative diagonal lines, recreated from the source PNG (generic-lines.png, 267x253):
+ * 50% white "/" lines, 2px thick, 13.25px horizontal pitch (9.37px perpendicular),
+ * clipped to a left-pointing chevron, anchored right / vertically centred.
+ */
+.hero-title-panel .hero-title-panel-panel::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 267px;
+  height: 253px;
+  transform: translateY(-50%);
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgb(255 255 255 / 50%) 0 2px,
+    transparent 2px 9.37px
+  );
+  clip-path: polygon(146px 0, 100% 0, 100% 100%, 225px 100%, 56px 92px);
+  pointer-events: none;
+}
+
+.hero-title-panel .hero-title-panel-panel > * {
+  position: relative;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 10px 0 0;
+  color: #fff;
+}
+
+.hero-title-panel .hero-title-panel-panel h1 {
+  /* source: 21px / 17px below 992px; margin-top trimmed so the 40px bar fits like the source */
+  margin: 13px 0 10px;
+  padding: 0 10px 0 0;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 17px;
+}
+
+@media (width >= 992px) {
+  .hero-title-panel {
+    flex-direction: row;
+  }
+
+  .hero-title-panel .hero-title-panel-media {
+    flex: 0 0 75%;
+    min-width: 0;
+  }
+
+  .hero-title-panel .hero-title-panel-panel {
+    flex: 0 0 25%;
+    min-width: 0;
+  }
+
+  .hero-title-panel.no-image .hero-title-panel-panel {
+    flex: 1 1 100%;
+    min-height: 241px;
+  }
+
+  .hero-title-panel .hero-title-panel-panel h1 {
+    margin: 20px 0 10px;
+    font-size: 28px;
+    line-height: 30.8px;
+  }
+}

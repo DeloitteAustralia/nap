@@ -1,0 +1,11 @@
+{
+  "variantName": "table-dates",
+  "baseBlock": "table",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Bordered data table with a header row (bold column headings) and multi-paragraph cells; left-aligned text.",
+  "contentPattern": "Key dates data table: header row then one row per assessment/period. First row is the header.",
+  "options": [],
+  "memberVariantIds": ["table-dates"],
+  "usage": "Key dates and schedule tables: a header row of column headings followed by data rows with text, paragraphs and links.",
+  "reuseGuidance": "Use for bordered tabular data whose first row is the header. Source rowspans are flattened; leave the repeated cell empty in following rows."
+}

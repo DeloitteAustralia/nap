@@ -10,6 +10,9 @@ import {
   loadSections,
   loadCSS,
   buildBlock,
+  readBlockConfig,
+  toCamelCase,
+  toClassName,
 } from './aem.js';
 
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
@@ -143,6 +146,28 @@ function decorateButtons(main) {
 }
 
 /**
+ * Applies section-metadata tables to their sections and removes them.
+ * `style` becomes section classes; other keys become data attributes.
+ * @param {Element} main The main element
+ */
+function decorateSectionMetadata(main) {
+  main.querySelectorAll(':scope > div > div.section-metadata').forEach((sectionMeta) => {
+    const section = sectionMeta.parentElement;
+    const meta = readBlockConfig(sectionMeta);
+    Object.entries(meta).forEach(([key, value]) => {
+      if (key === 'style') {
+        String(value).split(',').map((style) => toClassName(style.trim()))
+          .filter(Boolean)
+          .forEach((style) => section.classList.add(style));
+      } else {
+        section.dataset[toCamelCase(key)] = value;
+      }
+    });
+    sectionMeta.remove();
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -150,6 +175,7 @@ function decorateButtons(main) {
 export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
+  decorateSectionMetadata(main);
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
@@ -209,6 +235,8 @@ function loadDelayed() {
 }
 
 async function loadPage() {
+  // local preview serves pages under /content/; fix site links there (no-op when published)
+  if (window.location.pathname.startsWith('/content/')) import('./preview-links.js');
   await loadEager(document);
   await loadLazy(document);
   loadDelayed();

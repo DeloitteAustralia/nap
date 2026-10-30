@@ -1,0 +1,166 @@
+/* cards-side-nav: stacked section navigation in a light-blue box */
+.cards-side-nav nav {
+  font-family: var(--body-font-family);
+}
+
+.cards-side-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards-side-nav .cards-side-nav-list {
+  background-color: #e6f5fc;
+  border-right: 2px solid #f5f5f5;
+}
+
+.cards-side-nav .cards-side-nav-item {
+  position: relative;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4286;
+}
+
+/* sub-page links */
+.cards-side-nav .cards-side-nav-subnav a:any-link {
+  margin: 0 10px 0 0;
+  border-bottom: 3px solid rgb(0 171 232 / 80%);
+  color: #069;
+  font-size: 13px;
+  line-height: 16.8px;
+  text-decoration: none;
+}
+
+.cards-side-nav .cards-side-nav-subnav a:hover {
+  color: #069;
+  text-decoration: none;
+}
+
+/* top-level links */
+.cards-side-nav .cards-side-nav-item > a:any-link,
+.cards-side-nav .cards-side-nav-item > .cards-side-nav-label {
+  display: block;
+  box-sizing: border-box;
+  margin: 0 10px 0 0;
+  padding: 10px 15px;
+  border-bottom: 3px solid rgb(0 171 232 / 80%);
+  color: #069;
+  font-size: 13px;
+  line-height: 1.4286;
+  text-decoration: none;
+}
+
+.cards-side-nav .cards-side-nav-item > a:hover,
+.cards-side-nav .cards-side-nav-item > a:focus-visible {
+  background: rgb(0 171 232 / 20%);
+  color: #069;
+  text-decoration: none;
+}
+
+/* first item is the section root */
+.cards-side-nav .cards-side-nav-item:first-child > a:any-link {
+  font-size: 18px;
+}
+
+/* items with sub-pages */
+.cards-side-nav .cards-side-nav-item.parent {
+  line-height: 16.8px;
+}
+
+.cards-side-nav .cards-side-nav-item.parent > a:any-link {
+  min-height: 41px;
+  padding-right: 36px;
+  color: #026497;
+  line-height: 16.8px;
+}
+
+/* current page */
+.cards-side-nav .cards-side-nav-item.active {
+  background-color: #93daf4;
+  font-weight: 700;
+}
+
+.cards-side-nav .cards-side-nav-item.active > a:any-link,
+.cards-side-nav .cards-side-nav-item.active > a:hover {
+  /* source #026497 is 4.14:1 on the highlight; brand dark blue reaches 4.55:1 */
+  color: var(--brand-primary-dark);
+}
+
+/* expand / collapse toggle (double-angle arrow) */
+.cards-side-nav .cards-side-nav-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: 36px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.cards-side-nav .cards-side-nav-toggle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 8px;
+  height: 8px;
+  background-color: currentcolor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Cpath d='M0.5 0.8 L4 4.5 L0.5 8.2 M4.5 0.8 L8 4.5 L4.5 8.2' fill='none' stroke='%23000' stroke-width='1.2'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.cards-side-nav .cards-side-nav-toggle[aria-expanded='true']::before {
+  transform: rotate(90deg);
+}
+
+.cards-side-nav .cards-side-nav-toggle:focus-visible {
+  outline: 2px solid #069;
+  outline-offset: -2px;
+}
+
+/* nested sub-page list */
+.cards-side-nav .cards-side-nav-subnav {
+  border-right: 2px solid #f5f5f5;
+  background: #ebebeb;
+  font-weight: 400;
+  line-height: 16.8px;
+}
+
+.cards-side-nav .cards-side-nav-subnav[hidden] {
+  display: none;
+}
+
+.cards-side-nav .cards-side-nav-subnav li {
+  margin: 0;
+  padding: 10px 10px 10px 25px;
+  font-size: 14px;
+  line-height: 16.8px;
+}
+
+.cards-side-nav .cards-side-nav-subnav li:hover,
+.cards-side-nav .cards-side-nav-subnav li.active {
+  background: rgb(0 171 232 / 20%);
+}
+
+.cards-side-nav .cards-side-nav-subnav li.active {
+  font-weight: 700;
+}
+
+/* desktop: separators removed, box sits in the 1/4 column */
+@media (width >= 992px) {
+  .cards-side-nav .cards-side-nav-list,
+  .cards-side-nav .cards-side-nav-subnav {
+    border-right: 0;
+  }
+
+  .cards-side-nav .cards-side-nav-item > a:any-link,
+  .cards-side-nav .cards-side-nav-item > .cards-side-nav-label,
+  .cards-side-nav .cards-side-nav-subnav a:any-link {
+    margin: 0;
+    border-bottom: 0;
+  }
+}

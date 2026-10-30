@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://www.nap.edu.au/naplan/faqs",
+  "path": "naplan/faqs",
+  "timestamp": "2026-10-30T04:16:30.120Z",
+  "title": "NAPLAN - FAQs",
+  "template": "naplan",
+  "blocks": [
+    "cards-side-nav"
+  ]
+}

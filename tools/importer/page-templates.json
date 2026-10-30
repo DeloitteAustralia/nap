@@ -1,0 +1,166 @@
+{
+  "templates": [
+    {
+      "name": "home",
+      "urls": [
+        "https://www.nap.edu.au"
+      ],
+      "representativeUrl": "https://www.nap.edu.au",
+      "description": "NAP homepage: banner carousel of linked promo slides with a welcome panel, three feature article cards and a What's New news list.",
+      "blocks": [
+        {
+          "name": "carousel-side-text",
+          "instances": [
+            "#home-carousel",
+            "section.banner .carousel"
+          ]
+        },
+        {
+          "name": "cards-article",
+          "instances": [
+            "#content1 .bottom-section .row:has(.divarticle)"
+          ]
+        },
+        {
+          "name": "cards-news",
+          "instances": [
+            "#content1 article.divNewsContent"
+          ]
+        }
+      ],
+      "urlPattern": "/",
+      "sections": [
+        {
+          "id": "rc4",
+          "name": "Home banner carousel",
+          "selector": [
+            "#form1 > section.banner",
+            "section.banner"
+          ],
+          "style": "light-grey",
+          "blocks": [
+            "carousel-side-text"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc5",
+          "name": "Feature cards and What's New",
+          "selector": [
+            "#content1",
+            ".bottom-section"
+          ],
+          "style": "split",
+          "blocks": [
+            "cards-article",
+            "cards-news"
+          ],
+          "defaultContent": [
+            "#content1 article.divNewsContent > h3"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "naplan",
+      "urls": [
+        "https://www.nap.edu.au/about",
+        "https://www.nap.edu.au/nap-sample-assessments",
+        "https://www.nap.edu.au/naplan",
+        "https://www.nap.edu.au/naplan/faqs",
+        "https://www.nap.edu.au/naplan/faqs/naplan--results-reports-performance",
+        "https://www.nap.edu.au/naplan/for-parents-carers",
+        "https://www.nap.edu.au/naplan/for-schools",
+        "https://www.nap.edu.au/naplan/key-dates",
+        "https://www.nap.edu.au/naplan/public-demonstration-site",
+        "https://www.nap.edu.au/naplan/whats-in-the-tests",
+        "https://www.nap.edu.au/resources",
+        "https://www.nap.edu.au/results-and-reports"
+      ],
+      "representativeUrl": "https://www.nap.edu.au/about",
+      "description": "NAP content pages: optional photo hero banner, left side-navigation list and long-form article (headings, lists, images, quotes, tables, FAQ accordions).",
+      "blocks": [
+        {
+          "name": "hero-title-panel",
+          "instances": [
+            ".hero-section .containerherosection",
+            ".hero-section"
+          ]
+        },
+        {
+          "name": "cards-side-nav",
+          "instances": [
+            ".side-nav #ULSideNavMenu",
+            "#ULSideNavMenu"
+          ]
+        },
+        {
+          "name": "quote-indented",
+          "instances": [
+            ".main-content-text p[style*=\"margin-left\"]"
+          ]
+        },
+        {
+          "name": "accordion-faq",
+          "instances": [
+            ".main-content-text .accordion .panel-group",
+            ".main-content-text .panel-group"
+          ]
+        },
+        {
+          "name": "table-dates",
+          "instances": [
+            ".main-content-text table.k-table:has(thead)",
+            ".main-content-text table:has(thead)"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            ".main-content-text table.k-table:not(:has(thead))"
+          ]
+        }
+      ],
+      "urlPattern": "/*",
+      "sections": [
+        {
+          "id": "rc4",
+          "name": "Hero banner",
+          "selector": [
+            "#form1 > div.hero-section",
+            "#form1 > div.top-section",
+            ".hero-section",
+            ".top-section"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-title-panel"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc5",
+          "name": "Sidebar navigation and main content",
+          "selector": [
+            "#content1",
+            ".middle-section"
+          ],
+          "style": "split",
+          "blocks": [
+            "cards-side-nav",
+            "quote-indented",
+            "accordion-faq",
+            "table-dates",
+            "columns"
+          ],
+          "defaultContent": [
+            ".main-content-text"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "projectType": "da"
+  }
+}

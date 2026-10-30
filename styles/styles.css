@@ -1,3 +1,5 @@
+@import url('brand.css');
+
 /*
  * Copyright 2020 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -10,66 +12,6 @@
  * governing permissions and limitations under the License.
  */
 
-:root {
-  /* colors */
-  --background-color: white;
-  --light-color: #f8f8f8;
-  --dark-color: #505050;
-  --text-color: #131313;
-  --link-color: #3b63fb;
-  --link-hover-color: #1d3ecf;
-
-  /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
-
-  /* body sizes */
-  --body-font-size-m: 22px;
-  --body-font-size-s: 19px;
-  --body-font-size-xs: 17px;
-
-  /* heading sizes */
-  --heading-font-size-xxl: 55px;
-  --heading-font-size-xl: 44px;
-  --heading-font-size-l: 34px;
-  --heading-font-size-m: 27px;
-  --heading-font-size-s: 24px;
-  --heading-font-size-xs: 22px;
-
-  /* nav height */
-  --nav-height: 64px;
-}
-
-/* fallback fonts */
-@font-face {
-  font-family: roboto-condensed-fallback;
-  size-adjust: 88.82%;
-  src: local('Arial');
-}
-
-@font-face {
-  font-family: roboto-fallback;
-  size-adjust: 99.529%;
-  src: local('Arial');
-}
-
-@media (width >= 900px) {
-  :root {
-    /* body sizes */
-    --body-font-size-m: 18px;
-    --body-font-size-s: 16px;
-    --body-font-size-xs: 14px;
-
-    /* heading sizes */
-    --heading-font-size-xxl: 45px;
-    --heading-font-size-xl: 36px;
-    --heading-font-size-l: 28px;
-    --heading-font-size-m: 22px;
-    --heading-font-size-s: 20px;
-    --heading-font-size-xs: 18px;
-  }
-}
-
 body {
   display: none;
   margin: 0;
@@ -77,7 +19,7 @@ body {
   color: var(--text-color);
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-m);
-  line-height: 1.6;
+  line-height: var(--body-line-height);
 }
 
 body.appear {
@@ -104,18 +46,34 @@ h3,
 h4,
 h5,
 h6 {
-  margin-top: 0.8em;
-  margin-bottom: 0.25em;
+  margin: 0 0 10px;
+  color: var(--brand-primary);
   font-family: var(--heading-font-family);
-  font-weight: 600;
-  line-height: 1.25;
+  font-weight: 700;
+  line-height: 1.1;
   scroll-margin: 40px;
 }
 
-h1 { font-size: var(--heading-font-size-xxl); }
+h1 {
+  font-size: var(--heading-font-size-xxl);
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+}
+
+h3 {
+  font-size: var(--heading-font-size-l);
+  margin: 10px 0;
+  color: var(--brand-primary-dark);
+}
+
+h4 {
+  font-size: var(--heading-font-size-m);
+  margin: 10px 0;
+  color: var(--brand-primary-dark);
+  font-weight: 400;
+}
+
 h2 { font-size: var(--heading-font-size-xl); }
-h3 { font-size: var(--heading-font-size-l); }
-h4 { font-size: var(--heading-font-size-m); }
 h5 { font-size: var(--heading-font-size-s); }
 h6 { font-size: var(--heading-font-size-xs); }
 
@@ -125,8 +83,17 @@ ol,
 ul,
 pre,
 blockquote {
-  margin-top: 0.8em;
-  margin-bottom: 0.25em;
+  margin: 0 0 10px;
+}
+
+ul,
+ol {
+  padding-left: 40px;
+}
+
+strong,
+b {
+  font-weight: 700;
 }
 
 code,
@@ -143,7 +110,7 @@ pre {
 }
 
 main > div {
-  margin: 40px 16px;
+  margin: 20px 0;
 }
 
 input,
@@ -160,7 +127,8 @@ a:any-link {
   overflow-wrap: break-word;
 }
 
-a:hover {
+a:hover,
+a:focus-visible {
   color: var(--link-hover-color);
   text-decoration: underline;
 }
@@ -284,6 +252,24 @@ main img {
   height: auto;
 }
 
+/* EDS button reset: the source has no button styles, links stay links */
+main .button-container {
+  display: inline;
+}
+
+main a.button:any-link {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: var(--link-color);
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 0;
+  margin: 0;
+  text-decoration: underline;
+  white-space: normal;
+}
+
 .icon {
   display: inline-block;
   height: 24px;
@@ -295,31 +281,178 @@ main img {
   width: 100%;
 }
 
+/* hides content visually but keeps it in the accessibility tree */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
 /* sections */
 main > .section {
-  margin: 40px 0;
+  margin: var(--section-spacing) 0;
 }
 
 main > .section > div {
-  max-width: 1200px;
+  box-sizing: border-box;
+  max-width: var(--content-max-width);
   margin: auto;
-  padding: 0 24px;
+  padding: 0 var(--content-gutter);
 }
 
-main > .section:first-of-type {
+main > .section:first-of-type,
+main > .section.hero-title-panel-container + .section.split {
   margin-top: 0;
 }
 
-@media (width >= 900px) {
-  main > .section > div {
-    padding: 0 32px;
+/* section metadata */
+
+/* "hidden-heading" section style: the section's h1 is for assistive tech only (e.g. the homepage) */
+main > .section.hidden-heading > .default-content-wrapper:has(> h1:only-child) {
+  position: absolute;
+  clip-path: inset(50%);
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  white-space: nowrap;
+}
+
+main .section.light,
+main .section.highlight,
+main .section.light-grey,
+main > .section.hero-title-panel-container {
+  background-color: var(--light-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* split: block column beside default content (desktop only) */
+@media (width >= 992px) {
+  main > .section.split {
+    display: grid;
+    max-width: var(--content-max-width);
+    margin-inline: auto;
+    padding: 0 var(--content-gutter);
+    column-gap: 30px;
+    align-content: start;
+    box-sizing: border-box;
+  }
+
+  main > .section.split > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+
+  /* NAPLAN pages: side nav (col-md-3) left, article (col-md-9) right, 30px gutter.
+     The article keeps its column even when a page has no side nav. */
+  main > .section.split:not(:has(> .cards-article-wrapper)) {
+    grid-template-columns: calc(25% - 22.5px) 1fr;
+  }
+
+  main > .section.split > .cards-side-nav-wrapper {
+    grid-column: 1;
+    grid-row: 1 / span 99;
+  }
+
+  main > .section.split:not(:has(> .cards-article-wrapper)) > div:not(.cards-side-nav-wrapper) {
+    grid-column: 2;
+  }
+
+  /* Home: article cards (3/4) left, What's New (1/4) right */
+  main > .section.split:has(> .cards-article-wrapper) {
+    grid-template-columns: 1fr calc(25% - 22.5px);
+  }
+
+  main > .section.split > .cards-article-wrapper {
+    grid-column: 1;
+    grid-row: 1 / span 99;
+  }
+
+  /* the source shifts the What's New panel 13px into the gutter (275.5px wide) */
+  main > .section.split:has(> .cards-article-wrapper) > div:not(.cards-article-wrapper) {
+    grid-column: 2;
+    width: calc(100% + 13px);
+    margin-left: -13px;
   }
 }
 
-/* section metadata */
-main .section.light,
-main .section.highlight {
-  background-color: var(--light-color);
-  margin: 0;
-  padding: 40px 0;
+/* Home: "What's New" panel heading bar above the news list */
+main > .section.split:has(> .cards-news-wrapper) > .default-content-wrapper :is(h2, h3) {
+  margin: 20px 0 0;
+  padding: 6px 0 6px 12px;
+  background-color: var(--brand-panel-color);
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+main > .section.split:has(> .cards-news-wrapper) > .default-content-wrapper:has(+ .cards-news-wrapper) {
+  margin-bottom: 0;
+}
+
+/* the source pulls the What's New panel up 11px on desktop */
+@media (width >= 992px) {
+  main > .section.split:has(> .cards-news-wrapper) > .default-content-wrapper :is(h2, h3) {
+    margin-top: 9px;
+  }
+}
+
+/* Image opening a text paragraph: the source floats these right of the intro */
+@media (width >= 600px) {
+  main > .section.split .default-content-wrapper p > picture:first-child:not(:only-child) img {
+    float: right;
+    max-width: 250px;
+    margin: 4px 15px 15px;
+  }
+
+  main > .section.split .default-content-wrapper::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+/* "Larger text" header control: mirrors the source's bigFont(), which forces these sizes */
+html.text-size-large main :is(p, li, td, th, summary, blockquote) {
+  font-size: 16px !important;
+}
+
+html.text-size-large main h1 {
+  font-size: 22px !important;
+}
+
+html.text-size-large main h2 {
+  font-size: 20px !important;
+}
+
+html.text-size-large main :is(h3, h4) {
+  font-size: 18px !important;
+}
+
+html.text-size-large main .cards-side-nav li a:any-link {
+  font-size: 15px !important;
+}
+
+html.text-size-large main .cards-side-nav .cards-side-nav-item:first-child > a:any-link {
+  font-size: 20px !important;
+}
+
+html.text-size-large main .hero-title-panel h1 {
+  font-size: 23px !important;
+}
+
+@media (width >= 992px) {
+  html.text-size-large main .hero-title-panel h1 {
+    font-size: 30px !important;
+  }
 }

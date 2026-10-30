@@ -1,0 +1,11 @@
+{
+  "variantName": "quote-indented",
+  "baseBlock": "quote",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": "Plain indented body-size text, no quotation marks, no portrait or attribution.",
+  "contentPattern": "Indented quotation within article body (e.g. from the Melbourne Declaration). Row 1 quotation text; optional row 2 attribution.",
+  "options": [],
+  "memberVariantIds": ["quote-indented"],
+  "usage": "Inline quotation inside article copy, rendered as an indented paragraph.",
+  "reuseGuidance": "Use for quoted passages from documents or declarations within body text. Not for testimonials with portraits."
+}

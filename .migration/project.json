@@ -1,0 +1,11 @@
+{
+  "type": "da",
+  "sites": {
+    "nap": {
+      "previewOrg": "deloitteaustralia",
+      "previewSite": "nap",
+      "contentHostUrl": "https://content.da.live/deloitteaustralia/nap/",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+    }
+  }
+}

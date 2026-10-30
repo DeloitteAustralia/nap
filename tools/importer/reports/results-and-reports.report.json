@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://www.nap.edu.au/results-and-reports",
+  "path": "results-and-reports",
+  "timestamp": "2026-10-30T04:17:25.971Z",
+  "title": "Results and reports",
+  "template": "naplan",
+  "blocks": [
+    "hero-title-panel",
+    "cards-side-nav"
+  ]
+}
