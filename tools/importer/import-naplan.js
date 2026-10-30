@@ -7,6 +7,7 @@ import quoteIndentedParser from './parsers/quote-indented.js';
 import accordionFaqParser from './parsers/accordion-faq.js';
 import tableDatesParser from './parsers/table-dates.js';
 import columnsParser from './parsers/columns.js';
+import embedParser from './parsers/embed.js';
 import napLinksTransformer from './transformers/nap-links.js';
 import napCleanupTransformer from './transformers/nap-cleanup.js';
 import napSectionsTransformer from './transformers/nap-sections.js';
@@ -25,7 +26,8 @@ const PAGE_TEMPLATE = {
     "https://www.nap.edu.au/naplan/public-demonstration-site",
     "https://www.nap.edu.au/naplan/whats-in-the-tests",
     "https://www.nap.edu.au/resources",
-    "https://www.nap.edu.au/results-and-reports"
+    "https://www.nap.edu.au/results-and-reports",
+    "https://www.nap.edu.au/naplan/results-and-reports"
   ],
   "representativeUrl": "https://www.nap.edu.au/about",
   "description": "NAP content pages: optional photo hero banner, left side-navigation list and long-form article (headings, lists, images, quotes, tables, FAQ accordions).",
@@ -61,13 +63,20 @@ const PAGE_TEMPLATE = {
       "name": "table-dates",
       "instances": [
         ".main-content-text table.k-table:has(thead)",
-        ".main-content-text table:has(thead)"
+        ".main-content-text table:has(thead)",
+        ".main-content-text table:has(th[scope=\"col\"])"
       ]
     },
     {
       "name": "columns",
       "instances": [
         ".main-content-text table.k-table:not(:has(thead))"
+      ]
+    },
+    {
+      "name": "embed",
+      "instances": [
+        ".main-content-text iframe[src*=\"youtube\"]"
       ]
     }
   ],
@@ -101,7 +110,8 @@ const PAGE_TEMPLATE = {
         "quote-indented",
         "accordion-faq",
         "table-dates",
-        "columns"
+        "columns",
+        "embed"
       ],
       "defaultContent": [
         ".main-content-text"
@@ -117,6 +127,7 @@ const parsers = {
   'accordion-faq': accordionFaqParser,
   'table-dates': tableDatesParser,
   'columns': columnsParser,
+  'embed': embedParser,
 };
 
 // links first: it needs the source's named anchors, which nap-cleanup removes

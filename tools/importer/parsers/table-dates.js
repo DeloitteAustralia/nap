@@ -62,6 +62,10 @@ export default function parse(element, { document }) {
     return full;
   });
 
-  const block = WebImporter.Blocks.createBlock(document, { name: 'table-dates', cells });
+  // header cells with a background colour (e.g. proficiency cut points table) -> "shaded" option
+  const firstRow = headRows[0] || bodyRows[0];
+  const shaded = !!firstRow && [...firstRow.children].some((c) => /background(-color)?\s*:/i.test(c.getAttribute('style') || ''));
+
+  const block = WebImporter.Blocks.createBlock(document, { name: shaded ? 'table-dates (shaded)' : 'table-dates', cells });
   element.replaceWith(block);
 }

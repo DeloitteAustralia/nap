@@ -7,6 +7,8 @@
  * An empty body cell continues the cell above it (rowspan) when every cell to
  * its left in the same row is also a continuation, so merges stay nested
  * inside their parent group (e.g. Assessment type > Year > Period).
+ *
+ * Option "shaded": blue header row, row headers and alternate shaded row groups.
  */
 
 function isEmptyCell(cell) {
@@ -53,6 +55,29 @@ function mergeContinuations(rows, columns) {
   });
 }
 
+/**
+ * "shaded" option: the first cell of each row group becomes a row header and
+ * alternate groups get a shaded background (source: proficiency cut points table).
+ * @param {HTMLTableSectionElement} tbody
+ * @param {number} columns column count
+ */
+function decorateShaded(tbody, columns) {
+  let group = -1;
+  [...tbody.children].forEach((tr) => {
+    // a row that still has every cell starts a group; continuation rows lost their first cell
+    if (tr.children.length === columns) {
+      group += 1;
+      const first = tr.firstElementChild;
+      const th = document.createElement('th');
+      th.scope = 'row';
+      th.rowSpan = first.rowSpan;
+      th.append(...first.childNodes);
+      first.replaceWith(th);
+    }
+    if (group % 2 === 0) tr.classList.add('table-dates-row-shaded');
+  });
+}
+
 export default function decorate(block) {
   const rows = [...block.children].filter((row) => row.children.length);
   if (!rows.length) {
@@ -82,6 +107,7 @@ export default function decorate(block) {
   });
 
   mergeContinuations([...tbody.children], columns);
+  if (block.classList.contains('shaded')) decorateShaded(tbody, columns);
 
   table.append(thead);
   if (tbody.children.length) table.append(tbody);

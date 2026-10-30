@@ -97,6 +97,11 @@ export default function transform(hookName, element, payload) {
     // Unwrap Sitefinity content-block wrappers.
     element.querySelectorAll('.sfContentBlock').forEach(unwrap);
 
+    // Headings left empty (source used blank <h2>&nbsp;</h2> as anchor holders).
+    element.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((h) => {
+      if (isBlank(h)) h.remove();
+    });
+
     // Strip ASP.NET / Sitefinity generated IDs and tracking attributes.
     element.querySelectorAll('[id]').forEach((el) => {
       const id = el.getAttribute('id');

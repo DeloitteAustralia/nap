@@ -45,3 +45,35 @@
 .table-dates td > * + * {
   margin-top: 10px;
 }
+
+/* "shaded" option (source: NAPLAN proficiency cut points table) */
+.table-dates.shaded table {
+  width: 90%;
+  text-align: center;
+}
+
+.table-dates.shaded thead th {
+  padding: 5px 20px;
+  background-color: #00629b;
+  color: #fff;
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+}
+
+.table-dates.shaded tbody th {
+  padding: 5px 20px;
+  background-color: #eee;
+  color: #000;
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+}
+
+.table-dates.shaded td {
+  padding: 5px;
+  text-align: center;
+}
+
+.table-dates.shaded tr.table-dates-row-shaded td {
+  background-color: #d5f0ff;
+}
+

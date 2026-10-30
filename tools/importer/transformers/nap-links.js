@@ -26,10 +26,34 @@ const MIGRATED_PATHS = new Set([
   '/naplan/for-schools',
   '/naplan/key-dates',
   '/naplan/public-demonstration-site',
+  '/naplan/results-and-reports',
   '/naplan/whats-in-the-tests',
   '/resources',
   '/results-and-reports',
 ]);
+
+// Source named anchors on migrated pages -> heading ids on the new pages, for links from
+// other pages (e.g. /naplan/results-and-reports#2026). Same-page links are resolved automatically.
+const ANCHOR_ALIASES = {
+  '/naplan/results-and-reports': {
+    national: 'naplan-national-results',
+    schools: 'naplan-results-for-schools',
+    isrs: 'naplan-results-for-students-parents-and-carers-individual-student-reports',
+    'proficiency-scales-standards': 'naplan-scales-and-proficiency-standards',
+    scalesdiagram: 'diagram-naplan-measurement-scales-averaged-across-domains',
+    cutpointstable: 'table-naplan-scale-score-cut-points-between-proficiency-levels',
+    2026: 'naplan-2026-results',
+    techreports: 'naplan-technical-reports',
+  },
+  '/naplan/whats-in-the-tests': {
+    NAPLANAC: 'naplan-aligned-with-the-australian-curriculum',
+    Writing: 'writing',
+    Reading: 'reading',
+    Conventionsoflanguage: 'conventions-of-language',
+    Numeracy: 'numeracy',
+    PastNAPLANtestpapers: 'past-naplan-test-papers',
+  },
+};
 
 const DOCUMENT_PATTERN = /\.(pdf|docx?|xlsx?|pptx?|zip|csv|rtf)$/i;
 const HEADINGS = 'h1, h2, h3, h4, h5, h6';
@@ -81,19 +105,41 @@ function fixNamedAnchors(root) {
 
 /**
  * Fallback for "#Name" links whose named anchor was already stripped: match the heading whose
- * text equals the name once spaces/punctuation are removed (e.g. #Conventionsoflanguage).
+ * text equals the name once spaces/punctuation are removed (e.g. #Conventionsoflanguage), or the
+ * heading the link text repeats. A name resolved once is reused for its other links.
  */
 function fixUnresolvedAnchors(root) {
   const squash = (s) => s.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
   const headings = [...root.querySelectorAll(HEADINGS)];
+  const resolved = {};
+  const pending = [];
   root.querySelectorAll('a[href^="#"]').forEach((a) => {
     const name = decodeURIComponent(a.getAttribute('href').slice(1));
     if (!name || name === 'top') return;
     const exists = headings.some((h) => headingId(h.textContent.trim()) === name)
       || root.querySelector(`[id="${name}"], [name="${name}"]`);
     if (exists) return;
-    const heading = headings.find((h) => squash(h.textContent) === squash(name));
-    if (heading) a.setAttribute('href', `#${headingId(heading.textContent.trim())}`);
+    if (resolved[name]) {
+      a.setAttribute('href', `#${resolved[name]}`);
+      return;
+    }
+    // 1) heading text equals the anchor name; 2) heading text equals or prefixes the link text
+    // ("On this page" lists repeat the heading, e.g. #isrs -> "NAPLAN results for students ...")
+    const linkText = squash(a.textContent);
+    const heading = headings.find((h) => squash(h.textContent) === squash(name))
+      || headings.find((h) => linkText && squash(h.textContent) === linkText)
+      || headings
+        .filter((h) => squash(h.textContent).length > 8 && linkText.startsWith(squash(h.textContent)))
+        .sort((x, y) => squash(y.textContent).length - squash(x.textContent).length)[0];
+    if (heading) {
+      resolved[name] = headingId(heading.textContent.trim());
+      a.setAttribute('href', `#${resolved[name]}`);
+    } else {
+      pending.push([a, name]);
+    }
+  });
+  pending.forEach(([a, name]) => {
+    if (resolved[name]) a.setAttribute('href', `#${resolved[name]}`);
   });
 }
 
@@ -113,7 +159,9 @@ function rewriteLinks(root, baseUrl = SOURCE_ORIGIN) {
     const path = sanitizePath(url.pathname);
     const isDocument = DOCUMENT_PATTERN.test(url.pathname) || url.pathname.toLowerCase().startsWith('/docs/');
     if (!isDocument && MIGRATED_PATHS.has(path)) {
-      a.setAttribute('href', `${path}${url.search}${url.hash}`);
+      const name = url.hash ? decodeURIComponent(url.hash.slice(1)) : '';
+      const alias = name && ANCHOR_ALIASES[path] && ANCHOR_ALIASES[path][name];
+      a.setAttribute('href', `${path}${url.search}${alias ? `#${alias}` : url.hash}`);
     } else {
       a.setAttribute('href', `${SOURCE_ORIGIN}${url.pathname}${url.search}${url.hash}`);
     }

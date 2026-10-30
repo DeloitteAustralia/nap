@@ -182,7 +182,9 @@ var CustomImportScript = (() => {
       for (let i = 0; i < width; i += 1) full.push(row[i] === void 0 ? "" : row[i]);
       return full;
     });
-    const block = WebImporter.Blocks.createBlock(document, { name: "table-dates", cells });
+    const firstRow = headRows[0] || bodyRows[0];
+    const shaded = !!firstRow && [...firstRow.children].some((c) => /background(-color)?\s*:/i.test(c.getAttribute("style") || ""));
+    const block = WebImporter.Blocks.createBlock(document, { name: shaded ? "table-dates (shaded)" : "table-dates", cells });
     element.replaceWith(block);
   }
 
@@ -208,6 +210,28 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/embed.js
+  function parse7(element, { document }) {
+    const iframe = element.matches("iframe") ? element : element.querySelector("iframe");
+    if (!iframe || !iframe.getAttribute("src")) return;
+    const src = new URL(iframe.getAttribute("src"), "https://www.nap.edu.au/").href;
+    const link = document.createElement("a");
+    link.href = src;
+    link.textContent = src;
+    const block = WebImporter.Blocks.createBlock(document, { name: "embed", cells: [[link]] });
+    const paragraph = iframe.closest("p");
+    if (paragraph) {
+      iframe.remove();
+      while (paragraph.lastChild && (paragraph.lastChild.nodeName === "BR" || !paragraph.lastChild.textContent.trim())) {
+        paragraph.lastChild.remove();
+      }
+      paragraph.after(block);
+      if (!paragraph.textContent.trim()) paragraph.remove();
+    } else {
+      iframe.replaceWith(block);
+    }
+  }
+
   // tools/importer/transformers/nap-links.js
   var SOURCE_ORIGIN = "https://www.nap.edu.au";
   var MIGRATED_PATHS = /* @__PURE__ */ new Set([
@@ -221,10 +245,31 @@ var CustomImportScript = (() => {
     "/naplan/for-schools",
     "/naplan/key-dates",
     "/naplan/public-demonstration-site",
+    "/naplan/results-and-reports",
     "/naplan/whats-in-the-tests",
     "/resources",
     "/results-and-reports"
   ]);
+  var ANCHOR_ALIASES = {
+    "/naplan/results-and-reports": {
+      national: "naplan-national-results",
+      schools: "naplan-results-for-schools",
+      isrs: "naplan-results-for-students-parents-and-carers-individual-student-reports",
+      "proficiency-scales-standards": "naplan-scales-and-proficiency-standards",
+      scalesdiagram: "diagram-naplan-measurement-scales-averaged-across-domains",
+      cutpointstable: "table-naplan-scale-score-cut-points-between-proficiency-levels",
+      2026: "naplan-2026-results",
+      techreports: "naplan-technical-reports"
+    },
+    "/naplan/whats-in-the-tests": {
+      NAPLANAC: "naplan-aligned-with-the-australian-curriculum",
+      Writing: "writing",
+      Reading: "reading",
+      Conventionsoflanguage: "conventions-of-language",
+      Numeracy: "numeracy",
+      PastNAPLANtestpapers: "past-naplan-test-papers"
+    }
+  };
   var DOCUMENT_PATTERN = /\.(pdf|docx?|xlsx?|pptx?|zip|csv|rtf)$/i;
   var HEADINGS = "h1, h2, h3, h4, h5, h6";
   function sanitizePath(pathname) {
@@ -270,13 +315,28 @@ var CustomImportScript = (() => {
   function fixUnresolvedAnchors(root) {
     const squash = (s) => s.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
     const headings = [...root.querySelectorAll(HEADINGS)];
+    const resolved = {};
+    const pending = [];
     root.querySelectorAll('a[href^="#"]').forEach((a) => {
       const name = decodeURIComponent(a.getAttribute("href").slice(1));
       if (!name || name === "top") return;
       const exists = headings.some((h) => headingId(h.textContent.trim()) === name) || root.querySelector(`[id="${name}"], [name="${name}"]`);
       if (exists) return;
-      const heading = headings.find((h) => squash(h.textContent) === squash(name));
-      if (heading) a.setAttribute("href", `#${headingId(heading.textContent.trim())}`);
+      if (resolved[name]) {
+        a.setAttribute("href", `#${resolved[name]}`);
+        return;
+      }
+      const linkText = squash(a.textContent);
+      const heading = headings.find((h) => squash(h.textContent) === squash(name)) || headings.find((h) => linkText && squash(h.textContent) === linkText) || headings.filter((h) => squash(h.textContent).length > 8 && linkText.startsWith(squash(h.textContent))).sort((x, y) => squash(y.textContent).length - squash(x.textContent).length)[0];
+      if (heading) {
+        resolved[name] = headingId(heading.textContent.trim());
+        a.setAttribute("href", `#${resolved[name]}`);
+      } else {
+        pending.push([a, name]);
+      }
+    });
+    pending.forEach(([a, name]) => {
+      if (resolved[name]) a.setAttribute("href", `#${resolved[name]}`);
     });
   }
   function rewriteLinks(root, baseUrl = SOURCE_ORIGIN) {
@@ -297,7 +357,9 @@ var CustomImportScript = (() => {
       const path = sanitizePath(url.pathname);
       const isDocument = DOCUMENT_PATTERN.test(url.pathname) || url.pathname.toLowerCase().startsWith("/docs/");
       if (!isDocument && MIGRATED_PATHS.has(path)) {
-        a.setAttribute("href", `${path}${url.search}${url.hash}`);
+        const name = url.hash ? decodeURIComponent(url.hash.slice(1)) : "";
+        const alias = name && ANCHOR_ALIASES[path] && ANCHOR_ALIASES[path][name];
+        a.setAttribute("href", `${path}${url.search}${alias ? `#${alias}` : url.hash}`);
       } else {
         a.setAttribute("href", `${SOURCE_ORIGIN}${url.pathname}${url.search}${url.hash}`);
       }
@@ -383,6 +445,9 @@ var CustomImportScript = (() => {
     }
     if (hookName === "afterTransform") {
       element.querySelectorAll(".sfContentBlock").forEach(unwrap2);
+      element.querySelectorAll("h1, h2, h3, h4, h5, h6").forEach((h) => {
+        if (isBlank(h)) h.remove();
+      });
       element.querySelectorAll("[id]").forEach((el) => {
         const id = el.getAttribute("id");
         if (/^(ctl\d|ContentPlaceHolder|BannerImageContentPlaceHolder|[0-9a-f]{8}-[0-9a-f]{4}-)/i.test(id) || /_C\d{3}_|ClientState$/.test(id)) {
@@ -480,7 +545,8 @@ var CustomImportScript = (() => {
       "https://www.nap.edu.au/naplan/public-demonstration-site",
       "https://www.nap.edu.au/naplan/whats-in-the-tests",
       "https://www.nap.edu.au/resources",
-      "https://www.nap.edu.au/results-and-reports"
+      "https://www.nap.edu.au/results-and-reports",
+      "https://www.nap.edu.au/naplan/results-and-reports"
     ],
     "representativeUrl": "https://www.nap.edu.au/about",
     "description": "NAP content pages: optional photo hero banner, left side-navigation list and long-form article (headings, lists, images, quotes, tables, FAQ accordions).",
@@ -516,13 +582,20 @@ var CustomImportScript = (() => {
         "name": "table-dates",
         "instances": [
           ".main-content-text table.k-table:has(thead)",
-          ".main-content-text table:has(thead)"
+          ".main-content-text table:has(thead)",
+          '.main-content-text table:has(th[scope="col"])'
         ]
       },
       {
         "name": "columns",
         "instances": [
           ".main-content-text table.k-table:not(:has(thead))"
+        ]
+      },
+      {
+        "name": "embed",
+        "instances": [
+          '.main-content-text iframe[src*="youtube"]'
         ]
       }
     ],
@@ -556,7 +629,8 @@ var CustomImportScript = (() => {
           "quote-indented",
           "accordion-faq",
           "table-dates",
-          "columns"
+          "columns",
+          "embed"
         ],
         "defaultContent": [
           ".main-content-text"
@@ -570,7 +644,8 @@ var CustomImportScript = (() => {
     "quote-indented": parse3,
     "accordion-faq": parse4,
     "table-dates": parse5,
-    "columns": parse6
+    "columns": parse6,
+    "embed": parse7
   };
   var transformers = [transform, transform2, transform3];
   function executeTransformers(hookName, element, payload) {

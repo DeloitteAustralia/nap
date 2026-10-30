@@ -204,10 +204,31 @@ var CustomImportScript = (() => {
     "/naplan/for-schools",
     "/naplan/key-dates",
     "/naplan/public-demonstration-site",
+    "/naplan/results-and-reports",
     "/naplan/whats-in-the-tests",
     "/resources",
     "/results-and-reports"
   ]);
+  var ANCHOR_ALIASES = {
+    "/naplan/results-and-reports": {
+      national: "naplan-national-results",
+      schools: "naplan-results-for-schools",
+      isrs: "naplan-results-for-students-parents-and-carers-individual-student-reports",
+      "proficiency-scales-standards": "naplan-scales-and-proficiency-standards",
+      scalesdiagram: "diagram-naplan-measurement-scales-averaged-across-domains",
+      cutpointstable: "table-naplan-scale-score-cut-points-between-proficiency-levels",
+      2026: "naplan-2026-results",
+      techreports: "naplan-technical-reports"
+    },
+    "/naplan/whats-in-the-tests": {
+      NAPLANAC: "naplan-aligned-with-the-australian-curriculum",
+      Writing: "writing",
+      Reading: "reading",
+      Conventionsoflanguage: "conventions-of-language",
+      Numeracy: "numeracy",
+      PastNAPLANtestpapers: "past-naplan-test-papers"
+    }
+  };
   var DOCUMENT_PATTERN = /\.(pdf|docx?|xlsx?|pptx?|zip|csv|rtf)$/i;
   var HEADINGS = "h1, h2, h3, h4, h5, h6";
   function sanitizePath(pathname) {
@@ -253,13 +274,28 @@ var CustomImportScript = (() => {
   function fixUnresolvedAnchors(root) {
     const squash = (s) => s.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
     const headings = [...root.querySelectorAll(HEADINGS)];
+    const resolved = {};
+    const pending = [];
     root.querySelectorAll('a[href^="#"]').forEach((a) => {
       const name = decodeURIComponent(a.getAttribute("href").slice(1));
       if (!name || name === "top") return;
       const exists = headings.some((h) => headingId(h.textContent.trim()) === name) || root.querySelector(`[id="${name}"], [name="${name}"]`);
       if (exists) return;
-      const heading = headings.find((h) => squash(h.textContent) === squash(name));
-      if (heading) a.setAttribute("href", `#${headingId(heading.textContent.trim())}`);
+      if (resolved[name]) {
+        a.setAttribute("href", `#${resolved[name]}`);
+        return;
+      }
+      const linkText = squash(a.textContent);
+      const heading = headings.find((h) => squash(h.textContent) === squash(name)) || headings.find((h) => linkText && squash(h.textContent) === linkText) || headings.filter((h) => squash(h.textContent).length > 8 && linkText.startsWith(squash(h.textContent))).sort((x, y) => squash(y.textContent).length - squash(x.textContent).length)[0];
+      if (heading) {
+        resolved[name] = headingId(heading.textContent.trim());
+        a.setAttribute("href", `#${resolved[name]}`);
+      } else {
+        pending.push([a, name]);
+      }
+    });
+    pending.forEach(([a, name]) => {
+      if (resolved[name]) a.setAttribute("href", `#${resolved[name]}`);
     });
   }
   function rewriteLinks(root, baseUrl = SOURCE_ORIGIN) {
@@ -280,7 +316,9 @@ var CustomImportScript = (() => {
       const path = sanitizePath(url.pathname);
       const isDocument = DOCUMENT_PATTERN.test(url.pathname) || url.pathname.toLowerCase().startsWith("/docs/");
       if (!isDocument && MIGRATED_PATHS.has(path)) {
-        a.setAttribute("href", `${path}${url.search}${url.hash}`);
+        const name = url.hash ? decodeURIComponent(url.hash.slice(1)) : "";
+        const alias = name && ANCHOR_ALIASES[path] && ANCHOR_ALIASES[path][name];
+        a.setAttribute("href", `${path}${url.search}${alias ? `#${alias}` : url.hash}`);
       } else {
         a.setAttribute("href", `${SOURCE_ORIGIN}${url.pathname}${url.search}${url.hash}`);
       }
@@ -366,6 +404,9 @@ var CustomImportScript = (() => {
     }
     if (hookName === "afterTransform") {
       element.querySelectorAll(".sfContentBlock").forEach(unwrap2);
+      element.querySelectorAll("h1, h2, h3, h4, h5, h6").forEach((h) => {
+        if (isBlank2(h)) h.remove();
+      });
       element.querySelectorAll("[id]").forEach((el) => {
         const id = el.getAttribute("id");
         if (/^(ctl\d|ContentPlaceHolder|BannerImageContentPlaceHolder|[0-9a-f]{8}-[0-9a-f]{4}-)/i.test(id) || /_C\d{3}_|ClientState$/.test(id)) {
